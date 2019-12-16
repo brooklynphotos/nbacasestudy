@@ -3,4 +3,4 @@ Retrieves revenue data using forbes
 """
 
 def load_historical():
-  return 1
+  return [2,4,6,8]
