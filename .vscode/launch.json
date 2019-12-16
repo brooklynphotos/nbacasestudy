@@ -5,11 +5,17 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Python: Current File",
+      "name": "Linear Tools",
       "type": "python",
       "request": "launch",
       "module": "correlation.stats.test_linear_tools",
-      "program": "${file}",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Forbes",
+      "type": "python",
+      "request": "launch",
+      "module": "correlation.revenue.test_forbes",
       "console": "integratedTerminal"
     }
   ]
