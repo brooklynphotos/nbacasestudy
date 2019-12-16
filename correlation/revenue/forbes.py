@@ -10,6 +10,7 @@ import random
 from pathlib import Path
 import urllib.request
 import logging
+from correlation.revenue import revenue_mock_service
 
 def load_historical():
   load_data()
@@ -35,12 +36,13 @@ def save_data(target_file):
   data = []
   for x in range(0,10):
     year = start_year - x # going backwards in time
-    year_data = _get_forbes_data_(year)
+    year_data = revenue_mock_service.get_data(year)
+    # year_data = _get_forbes_data_(year)
     if year_data == -1:
       break
     data.append({
-      year: year,
-      data: year_data
+      'year': year,
+      'data': year_data
     })
     ## let's wait a bit so we don't batter the service
     time.sleep(random.randint(0,5))
