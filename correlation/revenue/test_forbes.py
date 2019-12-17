@@ -11,8 +11,8 @@ class TestForbes(unittest.TestCase):
       """
       using the mock retriever and not saving
       """
-      forbes = ForbesDataSource(retriever, False)
-      d = forbes.load_data()
+      forbes = ForbesDataSource(retriever, None)
+      d = forbes.load_raw_data()
       self.assertEqual(d[0]['year'], 2019)
       self.assertEqual(2, len(d))
 

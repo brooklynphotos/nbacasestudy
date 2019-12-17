@@ -13,37 +13,41 @@ import logging
 from correlation.revenue import revenue_mock_service
 
 class ForbesDataSource():
-  def __init__(self,retriever, try_saving=True):
+  def __init__(self,retriever, saved_file):
     """
       retriever: the functionality 
       self.retriever = retriever
-      self.try_saving = try_saving
+      self.saved_file = optional file to save the data to, if not given, won't look and won't save
     """
     self.retriever = retriever
-    self.try_saving = try_saving
+    self.saved_file = saved_file
 
   def load_historical(self):
-    return self.load_data()
-
-  def load_data(self):
     """
-    Load data, if not saving, go get it, else if it doesn't already exist, download it, else just load whatever is saved
+    Returns the conformed data
+    It is a matrix of year for each row and team for each column
     """
-    if not self.try_saving:
-      return self.retrieve_data()
+    return [x for x in self.load_raw_data()]
 
-    # TODO needs to be in a config
-    saved_file = "/Users/gzhong/tmp/nba_revenue.json"
-    if Path(saved_file).is_file():
-      with open(saved_file) as f:
+  def load_raw_data(self):
+    """
+    Load raw data, if not saving, go get it, else if it doesn't already exist, download it, else just load whatever is saved
+    The returned data is as described in <link to retrieve_raw_data>
+    """
+    if not self.saved_file:
+      return self.retrieve_raw_data()
+
+    if Path(self.saved_file).is_file():
+      with open(self.saved_file) as f:
         return json.load(f)
     else:
       # we don't have any cached data yet
-      return self.save_data(saved_file)
+      return self.save_data()
 
-  def retrieve_data(self):
+  def retrieve_raw_data(self):
     """
     Retrieves data and make it conform to the data model
+    It's a list of objects, each object contains a year and the data
     """
     # TODO maybe not hardcoded in
     start_year = 2019
@@ -62,12 +66,12 @@ class ForbesDataSource():
       time.sleep(random.randint(0,5))
     return data
 
-  def save_data(self,target_file):
+  def save_data(self):
     """
     downloads data and saves it to the given file one year at a time
     """
-    data = self.retrieve_data()      
-    with open(target_file, 'w') as tf:
+    data = self.retrieve_raw_data()      
+    with open(self.saved_file, 'w') as tf:
       json.dump(data, tf)
     return data
 
