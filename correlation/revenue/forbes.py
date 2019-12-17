@@ -26,8 +26,11 @@ class ForbesDataSource():
     """
     Returns the conformed data
     It is a matrix of year for each row and team for each column
+    Probably better with a pandas dataframe
     """
-    return [x for x in self.load_raw_data()]
+    def make_row(year_row):
+      return [r['revenue'] for r in year_row['data']]
+    return [make_row(x) for x in self.load_raw_data()]
 
   def load_raw_data(self):
     """

@@ -6,6 +6,6 @@ mock_data = {
 }
 def retrieve(year):
   if year in mock_data:
-    return mock_data[year]
+    return json.loads(mock_data[year])
   else:
     return -1
