@@ -1,6 +1,10 @@
 """
-Uses twitter following of NBA account as a way to gauge popularity
+Interface to the twitter API to retrieve raw data from twitter
 """
 
-def get_follower_stats():
-  return [1,2,3,4]
+class TwitterRetriever:
+  def __init__(self, tag):
+    self.tag = tag
+
+  def retrieve(self):
+    return [1,2,3,4]
