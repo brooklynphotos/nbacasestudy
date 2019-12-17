@@ -5,3 +5,7 @@ The hypothesis is that popularity of an NBA team should increase the number of p
 ## Running
 Install the dependencies using `pip3 install`
 Then run: `python3 -m corrleation`
+
+## Note
+### Twitter
+The `tweepy` api requires the consumer and api keys and token values. They should be stored in a file called `twitter_keys.py` that is referenced by `twitter.py`. 
