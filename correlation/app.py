@@ -16,7 +16,7 @@ from correlation.stats import linear_tools
 
 def run():
   popularity_loader = TwitterPopularityDataSource(TwitterRetriever('nba'))
-  revenu_loader = ForbesDataSource(ForbesDataRetriever(),"/Home/guoneng/tmp/forbes_nba.json")
+  revenu_loader = ForbesDataSource(ForbesDataRetriever(),"/Users/gzhong/tmp/forbes_nba.json")
   revenue = revenu_loader.load_historical()
   popularity = popularity_loader.get_data()
   corr = linear_tools.calculate_correlation(revenue, popularity)
