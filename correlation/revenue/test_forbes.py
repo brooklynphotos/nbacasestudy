@@ -4,7 +4,7 @@ import unittest
 
 class TestForbes(unittest.TestCase):
   """
-  Tests the non-private functions in the linear_tools module
+  Tests forbes-realted functionalities
   """
 
   def test_load_raw_data(self):
@@ -27,4 +27,4 @@ class TestForbes(unittest.TestCase):
     self.assertEqual(215,d[0][0])
 
 if __name__ == '__main__':
-    unittest.main()
+  unittest.main()
