@@ -10,12 +10,11 @@ import random
 from pathlib import Path
 import urllib.request
 import logging
-from correlation.revenue import revenue_mock_service
 
 class ForbesDataSource():
-  def __init__(self,retriever, saved_file):
+  def __init__(self, retriever, saved_file):
     """
-      retriever: the functionality 
+      retriever: the functionality
       self.retriever = retriever
       self.saved_file = optional file to save the data to, if not given, won't look and won't save
     """
