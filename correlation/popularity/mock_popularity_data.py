@@ -1,9 +1,11 @@
 """
 Jus returns dummy data. Good for testing and API building
 """
+import random
 
-def retrieve():
+def retrieve(team, year):
   """
   Part of the Retriever interface
+  returns random popularity for the last 10 years for 30 teams.
   """
-  return [0,1,2]
+  return random.randint(100,200)

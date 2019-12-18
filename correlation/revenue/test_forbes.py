@@ -4,6 +4,7 @@ import json
 
 from correlation.revenue.forbes import ForbesDataSource
 from correlation.revenue import revenue_mock_service as retriever
+from correlation.utils.dateutil import get_current_year
 
 class TestForbes(unittest.TestCase):
   """
@@ -16,7 +17,7 @@ class TestForbes(unittest.TestCase):
     """
     forbes = ForbesDataSource(retriever, None, 10)
     d = forbes.load_raw_data()
-    self.assertEqual(d[0]['year'], 2019)
+    self.assertEqual(d[0]['year'], get_current_year())
     self.assertEqual(2, len(d))
 
   def test_load_historical(self):
@@ -25,8 +26,8 @@ class TestForbes(unittest.TestCase):
     """
     forbes = ForbesDataSource(retriever, None, 10)
     d = forbes.load_historical()
-    self.assertEqual((2,31), d.shape) # 31 because year column plus the 30 teams
-    self.assertEqual(287,d.at[0,'boston-celtics'])
+    self.assertEqual((2,30), d.shape)
+    self.assertEqual(287,d.loc[2019,'boston-celtics'])
 
   def test_save_data(self):
     """

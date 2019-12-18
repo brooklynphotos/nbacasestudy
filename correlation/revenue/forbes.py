@@ -11,6 +11,7 @@ from pathlib import Path
 import urllib.request
 import logging
 import pandas as pd
+from correlation.utils.dateutil import get_current_year
 
 class ForbesDataSource():
   def __init__(self, retriever, saved_file, years_to_collect):
@@ -42,8 +43,7 @@ class ForbesDataSource():
         data_row[team_data['uri']] = team_data['revenue']
       return data_row
     df = pd.DataFrame.from_records([make_row(x) for x in self.load_raw_data()])
-    df.set_index('year')
-    return df
+    return df.set_index('year')
 
   def load_raw_data(self):
     """
@@ -65,8 +65,7 @@ class ForbesDataSource():
     Retrieves data and make it conform to the data model
     It's a list of objects, each object contains a year and the data
     """
-    # TODO maybe not hardcoded in
-    start_year = 2019
+    start_year = get_current_year()
     data = []
     for x in range(0,self.years_to_collect):
       year = start_year - x # going backwards in time

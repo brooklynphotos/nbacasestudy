@@ -4,7 +4,7 @@ Tests twitter module
 
 import unittest
 from .twitter import TwitterEngagementDataSource
-import correlation.popularity.mock_popularity_data as retriever
+from correlation.popularity import mock_popularity_data as retriever
 
 class TestTwitter(unittest.TestCase):
   """
@@ -12,9 +12,9 @@ class TestTwitter(unittest.TestCase):
   """
 
   def test_get_data(self):
-    eng = TwitterEngagementDataSource(retriever)
+    eng = TwitterEngagementDataSource(retriever, 10)
     d = eng.get_data()
-    self.assertEqual(1, len(d))
+    self.assertEqual(10, d.shape[0])
 
 if __name__ == '__main__':
   unittest.main()
