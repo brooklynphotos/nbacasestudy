@@ -10,13 +10,13 @@ We are using forbes for the revenue data and the twitter data source to measure 
 """
 
 from correlation.revenue.forbes import ForbesDataSource,ForbesDataRetriever
-from correlation.popularity.popularity_datasource import TwitterEngagementDataSource
+from correlation.popularity.twitter import TwitterEngagementDataSource
 from correlation.popularity.twitter_retriever import TwitterRetriever
 from correlation.stats import linear_tools
 
 def run():
   popularity_loader = TwitterEngagementDataSource(TwitterRetriever())
-  revenu_loader = ForbesDataSource(ForbesDataRetriever(),"/Users/gzhong/tmp/forbes_nba.json")
+  revenu_loader = ForbesDataSource(ForbesDataRetriever(),"/Users/gzhong/tmp/forbes_nba.json",10)
   revenue = revenu_loader.load_historical()
   popularity = popularity_loader.get_data()
   corr = linear_tools.calculate_correlation(revenue, popularity)

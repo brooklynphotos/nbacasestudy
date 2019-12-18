@@ -10,26 +10,40 @@ import random
 from pathlib import Path
 import urllib.request
 import logging
+import pandas as pd
 
 class ForbesDataSource():
-  def __init__(self, retriever, saved_file):
+  def __init__(self, retriever, saved_file, years_to_collect):
     """
       retriever: the functionality
-      self.retriever = retriever
-      self.saved_file = optional file to save the data to, if not given, won't look and won't save
+      retriever = retriever
+      saved_file = optional file to save the data to, if not given, won't look and won't save
+      years_to_collect: number of years to collect data starting with this year
     """
+    assert years_to_collect>0, "Years to collect must be positive"
     self.retriever = retriever
     self.saved_file = saved_file
+    self.years_to_collect = years_to_collect
 
   def load_historical(self):
     """
     Returns the conformed data
     It is a matrix of year for each row and team for each column
-    Probably better with a pandas dataframe
+    TODO Probably better with a pandas dataframe
     """
     def make_row(year_row):
-      return [r['revenue'] for r in year_row['data']]
-    return [make_row(x) for x in self.load_raw_data()]
+      """
+      converts a single entry from forbes into a map where key is either the name of the team with the revenue
+      or the word 'year' with the year in it.
+      This is an inner function as there is no reason anyone else should be using this
+      """
+      data_row = {'year': year_row['year']}
+      for team_data in year_row['data']:
+        data_row[team_data['uri']] = team_data['revenue']
+      return data_row
+    df = pd.DataFrame.from_records([make_row(x) for x in self.load_raw_data()])
+    df.set_index('year')
+    return df
 
   def load_raw_data(self):
     """
@@ -54,7 +68,7 @@ class ForbesDataSource():
     # TODO maybe not hardcoded in
     start_year = 2019
     data = []
-    for x in range(0,10):
+    for x in range(0,self.years_to_collect):
       year = start_year - x # going backwards in time
       year_data = self.retriever.retrieve(year)
       if year_data == -1:
@@ -88,8 +102,8 @@ class ForbesDataRetriever:
       try:
         return json.loads(u.read().decode())
       except Exception as ex:
-        logging.error("Can't make more requests?", ex)
+        logging.error("Can't make more requests? %s", ex)
         return -1
       except:
-        logging.error("Some non-exception is raised", sys.exc_info()[0])
+        logging.error("Some non-exception is raised: %s", sys.exc_info()[0])
         return -1
