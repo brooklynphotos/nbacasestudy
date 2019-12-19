@@ -17,7 +17,7 @@ class TestLinearTools(unittest.TestCase):
         res = linear_tools.calculate_correlation([1,2,3],[10,20,30])
         self.assertEqual(res, 1.0)
 
-    def test_correlation_perfect(self):
+    def test_correlation_negative(self):
         """
         When the two sets are perfectly negative-correlation
         """
